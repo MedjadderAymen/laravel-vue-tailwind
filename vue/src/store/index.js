@@ -16,7 +16,6 @@ const store = createStore({
   actions: {},
   mutations: {
     logout: (state) => {
-      console.log('medjadji')
       state.user.data={};
       state.user.token=null;
     }
