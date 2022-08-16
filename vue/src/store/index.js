@@ -1,23 +1,41 @@
 import {createStore} from "vuex";
+import axiosClient from "../axios";
 
 const store = createStore({
   state: {
     user: {
-      data: {
-        name: 'Aimen Medjadder',
-        email: 'aimen@gmail.com',
-        imageUrl:
-          'https://mir-s3-cdn-cf.behance.net/user/276/263bbd275526321.5ed29761601cf.jpg',
-      },
-      token: 75
+      data: {},
+      token: sessionStorage.getItem("TOKEN")
     }
   },
   getters: {},
-  actions: {},
+  actions: {
+    register({commit},user){
+      return axiosClient.post('/register', user)
+        .then(({data})=>{
+          commit('setUser', data);
+          return data;
+        })
+        .catch((error)=>console.log(error.response.data))
+    },
+    login({commit},user){
+     return axiosClient.post('/login', user)
+       .then(({data})=>{
+         commit('setUser', data);
+         return data;
+       })
+       .catch((error)=>console.log(error.response.data))
+    }
+  },
   mutations: {
     logout: (state) => {
       state.user.data={};
       state.user.token=null;
+    },
+    setUser:(state, userData)=>{
+      state.user.token = userData.token;
+      state.user.date = userData.user;
+      sessionStorage.setItem("TOKEN",userData.token);
     }
   },
   modules: {}

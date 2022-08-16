@@ -1,5 +1,7 @@
 <template>
-  <PageComponent title="Dashboard">content goes here</PageComponent>
+  <PageComponent title="Dashboard">
+    content goes here
+  </PageComponent>
 </template>
 
 <script setup>
