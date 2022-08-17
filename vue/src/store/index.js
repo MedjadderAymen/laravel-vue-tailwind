@@ -24,13 +24,20 @@ const store = createStore({
          commit('setUser', data);
          return data;
        })
-       .catch((error)=>console.log(error.response.data))
-    }
+    },
+    logout({commit}){
+      return axiosClient.post('/logout')
+        .then(({response})=>{
+          commit('logout', response);
+          return response;
+        })
+    },
   },
   mutations: {
     logout: (state) => {
       state.user.data={};
       state.user.token=null;
+      sessionStorage.setItem("TOKEN",null);
     },
     setUser:(state, userData)=>{
       state.user.token = userData.token;

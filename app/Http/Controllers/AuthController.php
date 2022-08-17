@@ -51,13 +51,23 @@ class AuthController extends Controller
         unset($data['remember']);
 
         if (!Auth::attempt($data, $remember)) {
-            return response(['error' => 'Email or Password not correct'], 422);
+            return response(['message' => 'Email or Password not correct'], 422);
         }
 
         $user = Auth::user();
         $token = $user->createToken('main')->plainTextToken;
 
         return response(['user' => $user, 'token' => $token]);
+
+    }
+
+    public function logout(){
+
+        $user = Auth::user();
+
+        $user->currentAccessToken()->delete();
+
+        return response(['success' => true]);
 
     }
 }
