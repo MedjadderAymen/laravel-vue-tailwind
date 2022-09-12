@@ -15,14 +15,14 @@
               Image
             </label>
             <div class="mt-1 flex items-center">
-              <img v-if="model.image" :src="model.image" :alt="model.title" class="w-64 h-48 object-cover">
+              <img v-if="model.image_url" :src="model.image_url" :alt="model.title" class="w-64 h-48 object-cover">
               <span v-else class="flex items-center justify-center h-12 w-12 rounded-full overflow-hidden bg-gray-100">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                   <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
                 </svg>
               </span>
               <button type="button" class="relative overflow-hidden ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                <input type="file" class="absolute left-0 top-0 right-0 bottom-0 opacity-0 cursor-pointer">
+                <input @change="OnImageChoose" type="file" class="absolute left-0 top-0 right-0 bottom-0 opacity-0 cursor-pointer">
                 Change
               </button>
             </div>
@@ -140,6 +140,20 @@ if (route.params.id){
   model.value = store.state.surveys.find(
     (s)=> s.id === parseInt(route.params.id)
   );
+}
+
+function OnImageChoose(ev){
+  const file = ev.target.files[0];
+
+  const reader = new FileReader();
+
+  reader.readAsDataURL(file);
+
+  reader.onload = ()=>{
+    model.value.image = reader.result;
+
+    model.value.image_url = reader.result;
+  }
 }
 
 function addQuestion(index){

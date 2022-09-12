@@ -176,6 +176,8 @@ const store = createStore({
     saveSurvey({commit}, survey){
       let response;
 
+      delete survey.image_url;
+
       if(survey.id){
         response = axiosClient.put(`/survey/${survey.id}`, survey)
           .then((res)=>{
