@@ -11,6 +11,12 @@ class Survey extends Model
 {
     use HasFactory, HasSlug;
 
+    const TYPE_TEXT = 'text';
+    const TYPE_TEXTAREA = 'textarea';
+    const TYPE_SELECT = 'select';
+    const TYPE_RADIO = 'radio';
+    const TYPE_CHECKBOX = 'checkbox';
+
     protected $fillable=[
         'title',
         'user_id',
@@ -18,7 +24,7 @@ class Survey extends Model
         'status',
         'description',
         'expire_date',
-        'image'
+        'image',
     ];
 
     public function getSlugOptions(): SlugOptions
@@ -26,5 +32,9 @@ class Survey extends Model
         return SlugOptions::create()
             ->generateSlugsFrom('title')
             ->saveSlugsTo('slug');
+    }
+
+    public function questions(){
+        return $this->hasMany(SurveyQuestion::class);
     }
 }
